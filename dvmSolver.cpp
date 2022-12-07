@@ -40,6 +40,9 @@ double DvmSolver::solve(int steps) {
     double u2[N+1][N+1][N+1];
     double max_eps = 0;
 
+#pragma dvm region
+{
+    // count 0
     #pragma dvm parallel([i][j][k] on u0[i][j][k])
     for (int i = 0; i <= N; i++) {
         for (int j = 0; j <= N; j++) {
@@ -68,8 +71,6 @@ double DvmSolver::solve(int steps) {
 
     // fill borders 1 and count inner 1
     // 1r y, 1r z, periodic x
-#pragma dvm region
-{
     #pragma dvm parallel([i][j][k] on u1[i][j][k]) shadow_renew(u0)
     for (int i = 0; i <= N; i++) {
         for (int j = 0; j <= N; j++) {
