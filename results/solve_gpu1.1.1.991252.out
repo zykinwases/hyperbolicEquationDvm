@@ -1,0 +1,71 @@
+Sender: LSF System <lsfadmin@polus-c4-ib.bmc.hpc.cs.msu.ru>
+Subject: Job 991252: <# this file was automaticly created by mpisubmit.pl script for edu-cmc-skmodel22-628-03 #;#BSUB -n 1;#BSUB -R span[ptile=20];#BSUB -W 00:30;#BSUB -gpu "num=2:mode=shared:mps=yes";#BSUB -o solve_gpu1.1.1.%J.out;#BSUB -e solve_gpu1.1.1.%J.err; mpiexec solve_gpu1.1.1 768 1> in cluster <MSUCluster> Done
+
+Job <# this file was automaticly created by mpisubmit.pl script for edu-cmc-skmodel22-628-03 #;#BSUB -n 1;#BSUB -R span[ptile=20];#BSUB -W 00:30;#BSUB -gpu "num=2:mode=shared:mps=yes";#BSUB -o solve_gpu1.1.1.%J.out;#BSUB -e solve_gpu1.1.1.%J.err; mpiexec solve_gpu1.1.1 768 1> was submitted from host <polus-ib.bmc.hpc.cs.msu.ru> by user <edu-cmc-skmodel22-628-03> in cluster <MSUCluster> at Tue Dec 13 00:00:58 2022
+Job was executed on host(s) <polus-c4-ib.bmc.hpc.cs.msu.ru>, in queue <short>, as user <edu-cmc-skmodel22-628-03> in cluster <MSUCluster> at Tue Dec 13 00:08:28 2022
+</home_edu/edu-cmc-skmodel22-628/edu-cmc-skmodel22-628-03> was used as the home directory.
+</home_edu/edu-cmc-skmodel22-628/edu-cmc-skmodel22-628-03/task4> was used as the working directory.
+Started at Tue Dec 13 00:08:28 2022
+Terminated at Tue Dec 13 00:08:51 2022
+Results reported at Tue Dec 13 00:08:51 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+# this file was automaticly created by mpisubmit.pl script for edu-cmc-skmodel22-628-03 #
+#BSUB -n 1
+#BSUB -R span[ptile=20]
+#BSUB -W 00:30
+#BSUB -gpu "num=2:mode=shared:mps=yes"
+#BSUB -o solve_gpu1.1.1.%J.out
+#BSUB -e solve_gpu1.1.1.%J.err
+ mpiexec solve_gpu1.1.1 768 1
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   6.03 sec.
+    Max Memory :                                 10665 MB
+    Average Memory :                             7838.60 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                20
+    Run time :                                   22 sec.
+    Turnaround time :                            473 sec.
+
+The output (if any) follows:
+
+0.000000e+00
+2.225164e-11
+8.900369e-11
+2.002478e-10
+3.559727e-10
+5.561568e-10
+8.008040e-10
+1.089982e-09
+1.424179e-09
+1.805867e-09
+2.253921e-09
+2.846989e-09
+4.105186e-09
+8.580363e-09
+2.985333e-08
+1.258170e-07
+5.850692e-07
+2.689556e-06
+1.249186e-05
+5.795674e-05
+time = 7.340016e+00
+ 
+
+
+PS:
+
+Read file <solve_gpu1.1.1.991252.err> for stderr output of this job.
+

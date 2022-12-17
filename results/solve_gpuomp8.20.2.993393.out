@@ -1,0 +1,71 @@
+Sender: LSF System <lsfadmin@polus-c3-ib.bmc.hpc.cs.msu.ru>
+Subject: Job 993393: <# this file was automaticly created by mpisubmit.pl script for edu-cmc-skmodel22-628-03 #;#BSUB -n 20;#BSUB -R span[ptile=20];#BSUB -W 00:30;#BSUB -gpu "num=2:mode=shared:mps=yes";#BSUB -o solve_gpuomp8.20.2.%J.out;#BSUB -e solve_gpuomp8.20.2.%J.err; mpiexec solve_gpuomp8.20.2 512 1> in cluster <MSUCluster> Done
+
+Job <# this file was automaticly created by mpisubmit.pl script for edu-cmc-skmodel22-628-03 #;#BSUB -n 20;#BSUB -R span[ptile=20];#BSUB -W 00:30;#BSUB -gpu "num=2:mode=shared:mps=yes";#BSUB -o solve_gpuomp8.20.2.%J.out;#BSUB -e solve_gpuomp8.20.2.%J.err; mpiexec solve_gpuomp8.20.2 512 1> was submitted from host <polus-ib.bmc.hpc.cs.msu.ru> by user <edu-cmc-skmodel22-628-03> in cluster <MSUCluster> at Wed Dec 14 23:27:00 2022
+Job was executed on host(s) <20*polus-c3-ib.bmc.hpc.cs.msu.ru>, in queue <short>, as user <edu-cmc-skmodel22-628-03> in cluster <MSUCluster> at Thu Dec 15 05:05:29 2022
+</home_edu/edu-cmc-skmodel22-628/edu-cmc-skmodel22-628-03> was used as the home directory.
+</home_edu/edu-cmc-skmodel22-628/edu-cmc-skmodel22-628-03/task4> was used as the working directory.
+Started at Thu Dec 15 05:05:29 2022
+Terminated at Thu Dec 15 05:19:41 2022
+Results reported at Thu Dec 15 05:19:41 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+# this file was automaticly created by mpisubmit.pl script for edu-cmc-skmodel22-628-03 #
+#BSUB -n 20
+#BSUB -R span[ptile=20]
+#BSUB -W 00:30
+#BSUB -gpu "num=2:mode=shared:mps=yes"
+#BSUB -o solve_gpuomp8.20.2.%J.out
+#BSUB -e solve_gpuomp8.20.2.%J.err
+ mpiexec solve_gpuomp8.20.2 512 1
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   86435.00 sec.
+    Max Memory :                                 4808 MB
+    Average Memory :                             4593.67 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              224
+    Max Threads :                                729
+    Run time :                                   852 sec.
+    Turnaround time :                            21161 sec.
+
+The output (if any) follows:
+
+5.551105e-17
+1.325750e-10
+5.302843e-10
+1.193081e-09
+2.120886e-09
+3.313590e-09
+4.771052e-09
+6.493099e-09
+8.479527e-09
+1.073010e-08
+1.324455e-08
+1.602258e-08
+1.906387e-08
+2.236805e-08
+2.593472e-08
+2.976348e-08
+3.385385e-08
+3.820537e-08
+4.281750e-08
+4.768971e-08
+time = 2.987267e+00
+ 
+
+
+PS:
+
+Read file <solve_gpuomp8.20.2.993393.err> for stderr output of this job.
+

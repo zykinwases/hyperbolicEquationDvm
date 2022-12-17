@@ -1,0 +1,180 @@
+#include <stdlib.h>
+#include <math.h>
+#include <stdio.h>
+#include "time.h"
+
+#define M_PI 3.14159265358979323846
+
+double laplasian(double u_ijk, double u_0jk, double u_1jk, double u_i0k, double u_i1k, double u_ij0, double u_ij1, double h) {
+    double dx = (u_0jk - 2*u_ijk + u_1jk) / (h * h);
+    double dy = (u_i0k - 2*u_ijk + u_i1k) / (h * h);
+    double dz = (u_ij0 - 2*u_ijk + u_ij1) / (h * h);
+    return dx + dy + dz;
+}
+
+double u_analytical(double d[3], double t, double L, double alpha) {
+    return (sin(2 * M_PI * d[0] / L) * sin(M_PI * d[1] / L) * sin(M_PI * d[2] / L) * cos(alpha * t + M_PI));
+}
+
+double phi(double d[3], double L) {
+    // u_analytical(d, 0);
+    return (-1 * sin(2 * M_PI * d[0] / L) * sin(M_PI * d[1] / L) * sin(M_PI * d[2] / L));
+}
+
+int main(int argc, char *argv[])
+{
+    int N;
+    double L;
+    int steps = 20;
+
+    // parse arguments
+    // arguments -- dots, L (assume Lx=Ly=Lz) (1 == 1, 2 == Pi)
+    if (argc > 2) {
+        N = atoi(argv[1]);
+        int c = atoi(argv[2]);
+        if (c == 2) L = M_PI;
+        else L = 1;
+        if (N <= 0) N = 2;
+    } else {
+        N = 2;
+        L = 1;
+    }
+
+    double error;
+    double begin, time, maxTime;
+    double h = L / N;
+    double tau = 1.0 / 1000;
+    double alpha = M_PI * sqrt((4/(L*L) + 1/(L*L) + 1/(L*L)));
+    double st, et;
+    
+    #pragma dvm array distribute [block][block][block]
+    double u0[N+1][N+1][N+1];    
+    #pragma dvm array align([i][j][k] with u0[i][j][k]), shadow[1:1][1:1][1:1]
+    double u1[N+1][N+1][N+1];
+    #pragma dvm array align([i][j][k] with u0[i][j][k])
+    double u2[N+1][N+1][N+1];
+    double max_eps = 0;
+
+    st = get_time();
+
+#pragma dvm region
+{
+    // count 0
+    #pragma dvm parallel([i][j][k] on u0[i][j][k])
+    for (int i = 0; i <= N; i++) {
+        for (int j = 0; j <= N; j++) {
+            for (int k = 0; k <= N; k++) {
+                double dot[3] = {h*i, h*j, h*k};
+                u0[i][j][k] = phi(dot, L);
+            }
+        }
+    }
+
+    // find error u0
+    #pragma dvm parallel([i][j][k] on u0[i][j][k]) reduction(max(max_eps))
+    for (int i = 0; i <= N; i++) {
+        for (int j = 0; j <= N; j++) {
+            for (int k = 0; k <= N; k++) {
+                double dot[3] = {h*i, h*j, h*k};
+                double eps = fabs(u0[i][j][k] - u_analytical(dot, 0, L, alpha));
+                if (eps > max_eps) {
+                    max_eps = eps;
+                }
+            }
+        }
+    }
+}
+
+    printf("%e\n", max_eps);
+    max_eps = 0;
+
+#pragma dvm region
+{
+    // fill borders 1 and count inner 1
+    // 1r y, 1r z, periodic x
+    #pragma dvm parallel([i][j][k] on u1[i][j][k]) shadow_renew(u0)
+    for (int i = 0; i <= N; i++) {
+        for (int j = 0; j <= N; j++) {
+            for (int k = 0; k <= N; k++) {
+                if (j == 0 || j == N || k == 0 || k == N) {
+                    u1[i][j][k] = 0;
+                } else
+                if (i == 0 || i == N) {
+                    double dot[3] = {0,j*h,k*h};
+                    double u_here = u_analytical(dot, tau, L, alpha);
+                    u1[i][j][k] = u_here;
+                } else {
+                    u1[i][j][k] = u0[i][j][k] + laplasian(u0[i][j][k], u0[i-1][j][k], u0[i+1][j][k], u0[i][j-1][k], u0[i][j+1][k], u0[i][j][k-1], u0[i][j][k+1], h)*tau*tau/2;
+                }
+            }
+        }
+    }
+    
+    // find error u1
+    #pragma dvm parallel([i][j][k] on u1[i][j][k]) reduction(max(max_eps))
+    for (int i = 0; i <= N; i++) {
+        for (int j = 0; j <= N; j++) {
+            for (int k = 0; k <= N; k++) {
+                double dot[3] = {h*i, h*j, h*k};
+                double eps = fabs(u1[i][j][k] - u_analytical(dot, tau, L, alpha));
+                if (eps > max_eps) {
+                    max_eps = eps;
+                }
+            }
+        }
+    }
+}
+
+    printf("%e\n", max_eps);
+    max_eps = 0;
+
+    for (int t = 2; t < steps; t++) {
+        // fill borders and count inner 2 (t)
+        // 1r y, 1r z, periodic x
+        #pragma dvm region
+        {
+        #pragma dvm parallel([i][j][k] on u2[i][j][k]) shadow_renew(u1)
+        for (int i = 0; i <= N; i++) {
+            for (int j = 0; j <= N; j++) {
+                for (int k = 0; k <= N; k++) {
+                    if (j == 0 || j == N || k == 0 || k == N) {
+                        u2[i][j][k] = 0;
+                    } else
+                    if (i == 0 || i == N) {
+                        double dot[3] = {0,j*h,k*h};
+                        double u_here = u_analytical(dot, tau*t, L, alpha);
+                        u2[i][j][k] = u_here;
+                    } else {
+                        u2[i][j][k] = 2 * u1[i][j][k] - u0[i][j][k] + tau * tau * laplasian(u1[i][j][k], u1[i-1][j][k], u1[i+1][j][k], u1[i][j-1][k], u1[i][j+1][k], u1[i][j][k-1], u1[i][j][k+1], h);
+                    }
+                }
+            }
+        }
+
+        // find error 2 (t) and rearrange buffers
+        #pragma dvm parallel([i][j][k] on u2[i][j][k]) reduction(max(max_eps))
+        for (int i = 0; i <= N; i++) {
+            for (int j = 0; j <= N; j++) {
+                for (int k = 0; k <= N; k++) {
+                    double dot[3] = {h*i, h*j, h*k};
+                    double eps = fabs(u2[i][j][k] - u_analytical(dot, tau*t, L, alpha));
+                    if (eps > max_eps) {
+                        max_eps = eps;
+                    }
+                    u0[i][j][k] = u1[i][j][k];
+                    u1[i][j][k] = u2[i][j][k];
+                }
+            }
+        }
+        }
+
+        #pragma dvm get_actual(max_eps)
+        printf("%e\n", max_eps);
+        if (t < steps-1) max_eps = 0;
+    }
+
+    et = get_time();
+    printf ("time = %e\n", et - st ) ;
+
+    return 0;
+}

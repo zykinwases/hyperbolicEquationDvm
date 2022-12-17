@@ -1,0 +1,71 @@
+Sender: LSF System <lsfadmin@polus-c4-ib.bmc.hpc.cs.msu.ru>
+Subject: Job 991243: <# this file was automaticly created by mpisubmit.pl script for edu-cmc-skmodel22-628-03 #;#BSUB -n 1;#BSUB -R span[ptile=20];#BSUB -W 00:30;#BSUB -gpu "num=2:mode=shared:mps=yes";#BSUB -o solve_omp2.1.1.%J.out;#BSUB -e solve_omp2.1.1.%J.err; mpiexec solve_omp2.1.1 768 1> in cluster <MSUCluster> Done
+
+Job <# this file was automaticly created by mpisubmit.pl script for edu-cmc-skmodel22-628-03 #;#BSUB -n 1;#BSUB -R span[ptile=20];#BSUB -W 00:30;#BSUB -gpu "num=2:mode=shared:mps=yes";#BSUB -o solve_omp2.1.1.%J.out;#BSUB -e solve_omp2.1.1.%J.err; mpiexec solve_omp2.1.1 768 1> was submitted from host <polus-ib.bmc.hpc.cs.msu.ru> by user <edu-cmc-skmodel22-628-03> in cluster <MSUCluster> at Tue Dec 13 00:00:25 2022
+Job was executed on host(s) <polus-c4-ib.bmc.hpc.cs.msu.ru>, in queue <short>, as user <edu-cmc-skmodel22-628-03> in cluster <MSUCluster> at Tue Dec 13 00:00:25 2022
+</home_edu/edu-cmc-skmodel22-628/edu-cmc-skmodel22-628-03> was used as the home directory.
+</home_edu/edu-cmc-skmodel22-628/edu-cmc-skmodel22-628-03/task4> was used as the working directory.
+Started at Tue Dec 13 00:00:25 2022
+Terminated at Tue Dec 13 00:08:54 2022
+Results reported at Tue Dec 13 00:08:54 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+# this file was automaticly created by mpisubmit.pl script for edu-cmc-skmodel22-628-03 #
+#BSUB -n 1
+#BSUB -R span[ptile=20]
+#BSUB -W 00:30
+#BSUB -gpu "num=2:mode=shared:mps=yes"
+#BSUB -o solve_omp2.1.1.%J.out
+#BSUB -e solve_omp2.1.1.%J.err
+ mpiexec solve_omp2.1.1 768 1
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   429.66 sec.
+    Max Memory :                                 10613 MB
+    Average Memory :                             9400.67 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                20
+    Run time :                                   516 sec.
+    Turnaround time :                            509 sec.
+
+The output (if any) follows:
+
+4.990674e-16
+2.225164e-11
+8.900369e-11
+2.002478e-10
+3.559727e-10
+5.561571e-10
+8.008049e-10
+1.089996e-09
+1.424351e-09
+1.806627e-09
+2.257248e-09
+2.866257e-09
+4.107091e-09
+8.638485e-09
+3.006425e-08
+1.253835e-07
+5.880473e-07
+2.723107e-06
+1.276250e-05
+5.969970e-05
+time = 4.980641e+02
+ 
+
+
+PS:
+
+Read file <solve_omp2.1.1.991243.err> for stderr output of this job.
+
